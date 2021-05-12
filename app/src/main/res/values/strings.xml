@@ -3,4 +3,10 @@
     <string name="Home">홈</string>
     <string name="Chatting">채팅</string>
     <string name="MyPage">나의 정보</string>
+    <string name="ArticleTitleHint">제목 입력</string>
+    <string name="ArticlePriceHint">물품 가격 입력</string>
+    <string name="RequestInputEmail">이메일을 입력해주세요</string>
+    <string name="RequestInputPassword">비밀번호를 입력해 주세요</string>
+    <string name="login">로그인</string>
+    <string name="logout">로그아웃</string>
 </resources>

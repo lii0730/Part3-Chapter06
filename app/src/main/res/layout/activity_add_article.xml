@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.AddArticleActivity">
+
+    <LinearLayout
+        android:id="@+id/addArticleLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/closeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingLeft="10sp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:text="닫기"/>
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:clickable="true"
+            android:text="물품 등록"/>
+
+        <TextView
+            android:id="@+id/completeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:paddingRight="10sp"
+            android:clickable="true"
+            android:text="완료"/>
+
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/addImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:scaleType="center"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/icphoto_camera_30"
+        app:layout_constraintTop_toBottomOf="@+id/addArticleLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/showArticleImageView"/>
+
+    <ImageView
+        android:id="@+id/showArticleImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/addImageButton"
+        app:layout_constraintTop_toBottomOf="@+id/addImageButton"
+        app:layout_constraintBottom_toTopOf="@+id/articleTitle"/>
+
+    <EditText
+        android:id="@+id/articleTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showArticleImageView"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="80dp"
+        android:hint="@string/ArticleTitleHint"/>
+
+    <EditText
+        android:id="@+id/articlePrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/articleTitle"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:hint="@string/ArticlePriceHint"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

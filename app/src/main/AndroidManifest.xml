@@ -6,10 +6,11 @@
         android:allowBackup="true"
         android:icon="@drawable/pumpkin"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/pumpkin"
         android:supportsRtl="true"
         android:theme="@style/Theme.AOPPart3Chapter06">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.AddArticleActivity"></activity>
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

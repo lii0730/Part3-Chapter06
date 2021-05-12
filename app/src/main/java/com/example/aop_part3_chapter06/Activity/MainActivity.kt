@@ -1,4 +1,4 @@
-package com.example.aop_part3_chapter06
+package com.example.aop_part3_chapter06.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.example.aop_part3_chapter06.ChatList.ChatListFragment
 import com.example.aop_part3_chapter06.Home.HomeFragment
 import com.example.aop_part3_chapter06.MyPage.MyPageFragment
+import com.example.aop_part3_chapter06.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
