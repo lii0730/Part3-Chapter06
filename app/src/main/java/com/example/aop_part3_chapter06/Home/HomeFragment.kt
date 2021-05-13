@@ -19,6 +19,7 @@ import java.util.*
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var articleDB: DatabaseReference
+
     private val listener = object : ChildEventListener {
         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
             val articleModel = snapshot.getValue(ArticleModel::class.java)
@@ -36,18 +37,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         override fun onCancelled(error: DatabaseError) {}
     }
+
     private var binding: FragmentHomeBinding? = null
+
     private val auth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
+
     private lateinit var articleAdapter: ArticleAdapter
+
     private lateinit var articleList: MutableList<ArticleModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val fragmentHomeBinding = FragmentHomeBinding.bind(view)
-        binding = fragmentHomeBinding
+//        binding = fragmentHomeBinding
 
         articleDB = FirebaseDatabase.getInstance().reference.child(ARTICLES)
 
@@ -77,6 +82,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        //TODO: View가 Destroy 될 때 listener 제거
         articleDB.removeEventListener(listener)
     }
 }

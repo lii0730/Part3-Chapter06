@@ -2,19 +2,19 @@ package com.example.aop_part3_chapter06.MyPage
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.aop_part3_chapter06.DBKEY.Companion.ARTICLES
-import com.example.aop_part3_chapter06.DBKEY.Companion.SELLERID
 import com.example.aop_part3_chapter06.R
 import com.example.aop_part3_chapter06.databinding.FragmentMypageBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 
 
 class MyPageFragment : Fragment(R.layout.fragment_mypage) {
@@ -22,21 +22,43 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
     private lateinit var binding: FragmentMypageBinding
     private lateinit var baseDB: DatabaseReference
     private lateinit var auth : FirebaseAuth
-    private var isLogin: Boolean = false
+    private val TAG = "LifeCycle"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.e(TAG, "$TAG::FRonCreate")
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+        Log.e(TAG, "$TAG::FRonCreateView")
+    }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMypageBinding.bind(view)
+        auth = FirebaseAuth.getInstance()
 
         initBaseDB()
         initBindButton()
         initEmailAndPasswordEditText()
+        Log.e(TAG, "$TAG::FROnViewCreated")
+    }
 
-        auth = FirebaseAuth.getInstance()
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        Log.e(TAG, "$TAG::FRonViewStateRestored")
     }
 
     override fun onStart() {
         super.onStart()
+        Log.e(TAG, "$TAG::FRonStart")
 
         if(auth.currentUser == null) {
             binding.emailEditText.text.clear()
@@ -48,7 +70,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             binding.signUpButton.isEnabled = false
             binding.loginButton.text = getString(R.string.login)
         } else {
-            binding.emailEditText.setText(auth.currentUser.email)
+            binding.emailEditText.setText(auth.currentUser!!.email)
             binding.passwordEditText.setText("********")
             binding.emailEditText.isEnabled = false
             binding.passwordEditText.isEnabled = false
@@ -57,6 +79,37 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             binding.loginButton.isEnabled = true
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(TAG, "$TAG::FRonResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e(TAG, "$TAG::FRonPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e(TAG, "$TAG::FRonStop")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.e(TAG, "$TAG::FRonSaveInstanceState")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e(TAG, "$TAG::FRonDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e(TAG, "$TAG::FRonDestroy")
+    }
+
 
     private fun initBaseDB() {
         val database = FirebaseDatabase.getInstance()
@@ -69,8 +122,8 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             val email = getInputEmail()
             val password = getInputPassword()
 
-            if (!isLogin) {
-                //로그인 되어 있지 않은 상태
+            if (auth.currentUser == null) {
+                //TODO : 로그인 되어 있지 않은 상태
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -85,14 +138,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
                         }
                     }
             } else {
-                auth.signOut()
-                binding.emailEditText.text.clear()
-                binding.emailEditText.isEnabled = true
-                binding.passwordEditText.text.clear()
-                binding.passwordEditText.isEnabled = true
-                binding.loginButton.text = getString(R.string.login)
-                binding.emailEditText.requestFocus()
-                isLogin = false
+                logoutProcess()
                 Snackbar.make(it, "로그아웃 되었습니다.", Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -106,9 +152,10 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
                     if (task.isSuccessful) {
                         Toast.makeText(
                             context,
-                            "회원가입에 성공하였습니다. 로그인 버튼을 눌러 로그인 해주세요.",
+                            "회원가입에 성공하였습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        logoutProcess()
                     } else {
                         Toast.makeText(
                             context,
@@ -118,6 +165,16 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
                     }
                 }
         }
+    }
+
+    private fun logoutProcess() {
+        binding.emailEditText.text.clear()
+        binding.emailEditText.isEnabled = true
+        binding.passwordEditText.text.clear()
+        binding.passwordEditText.isEnabled = true
+        binding.loginButton.text = getString(R.string.login)
+        binding.emailEditText.requestFocus()
+        auth.signOut()
     }
 
     private fun initEmailAndPasswordEditText() {
@@ -149,17 +206,9 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             Toast.makeText(context, "로그인에 실패하였습니다", Toast.LENGTH_SHORT).show()
             return
         }
-        val userID = auth.currentUser?.uid.orEmpty()
-        val currentUserDB = baseDB.child(userID)
-        val user = mutableMapOf<String, Any>()
-        user[SELLERID] = userID
-        currentUserDB.updateChildren(user)
-
         binding.emailEditText.isEnabled = false
         binding.passwordEditText.isEnabled = false
         binding.signUpButton.isEnabled = false
         binding.loginButton.setText(getString(R.string.logout))
-
-        isLogin = true
     }
 }

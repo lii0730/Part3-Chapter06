@@ -2,6 +2,7 @@ package com.example.aop_part3_chapter06.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.aop_part3_chapter06.ChatList.ChatListFragment
 import com.example.aop_part3_chapter06.Home.HomeFragment
@@ -11,15 +12,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
+    private val TAG = "LifeCycle"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.e(TAG, "$TAG::ATonCreate")
 
         val homeFragment = HomeFragment()
         val chatListFragment = ChatListFragment()
         val myPageFragment = MyPageFragment()
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+
         replaceFragment(homeFragment)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
+        //TODO: Fragment 전환
         supportFragmentManager.beginTransaction()
             .apply {
                 replace(R.id.fragmentContainer, fragment)
