@@ -79,7 +79,7 @@ class AddArticleActivity : AppCompatActivity() {
 
         binding.addImageButton.setOnClickListener {
             when {
-                ContextCompat.checkSelfPermission(
+                ActivityCompat.checkSelfPermission(
                     this,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED -> {
@@ -188,6 +188,7 @@ class AddArticleActivity : AppCompatActivity() {
             REQUEST_GET_IMAGE_CODE -> {
                 val uri = data?.data // 선택한 이미지에 대한 uri 가 넘어옴
                 if (uri != null) {
+                    //TODO: 선택한 이미지 이미지뷰에 표시
                     binding.showArticleImageView.setImageURI(uri)
                     selectedUri = uri
                 } else {

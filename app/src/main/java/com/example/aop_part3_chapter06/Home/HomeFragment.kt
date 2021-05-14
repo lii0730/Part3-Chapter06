@@ -27,6 +27,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val articleModel = snapshot.getValue(ArticleModel::class.java)
             articleModel ?: return
 
+            //snapShot => 추가된 데이터 항목
             articleList.add(articleModel)
             articleAdapter.submitList(articleList)
         }
@@ -40,8 +41,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         override fun onCancelled(error: DatabaseError) {}
     }
 
-    private var binding: FragmentHomeBinding? = null
-
     private val auth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
@@ -54,7 +53,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
 
         val fragmentHomeBinding = FragmentHomeBinding.bind(view)
-//        binding = fragmentHomeBinding
 
         articleDB = FirebaseDatabase.getInstance().reference.child(ARTICLES)
         userDB = FirebaseDatabase.getInstance().reference.child(USERS)
@@ -63,6 +61,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             if (auth.currentUser != null) {
                 if (auth.currentUser?.uid != articleModel.sellerId) {
+                    //TODO: 물품 클릭시 사용자와 판매자가 다른 경우 채팅방 리스트 아이템 생성
                     val chatRoom = ChatListItem(
                         buyerId = auth.currentUser!!.uid,
                         sellerId = articleModel.sellerId,
@@ -71,7 +70,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     )
 
                     userDB.child(auth.currentUser!!.uid).child(CHAT)
-                        .push()
+                        .push() // push하면 임의 키 생성
                         .setValue(chatRoom)
 
                     userDB.child(articleModel.sellerId).child(CHAT)

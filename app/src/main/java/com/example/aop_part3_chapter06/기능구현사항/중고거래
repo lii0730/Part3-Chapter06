@@ -17,3 +17,28 @@
 4. 회원 기반으로 채팅 화면을 구현할 수 있음
 5. Fragment를 사용하여 하단 탭 화면 구조를 구현할 수 있음
 6. FloatingActionButton 사용하기
+
+
+<프로젝트 구조 설명>
+
+1. Activity Package
+- AddArticleActivity  = 물품 등록 화면
+- MainActivity = 메인화면 (HomeFragment)
+
+2. ChatDetail -> 채팅 화면
+- ChatItem = 채팅방에 올라오는  채팅 아이템 (유저 : 메시지)
+- ChatItemAdapter = ChatItem에 적용되는 Adapter
+- ChatRoomActivity = 메시지를 보내는 화면 (채팅아이템 + 메시지 전송 버튼, 내용입력버튼)
+
+3. ChatList -> ChatListFragment 관련
+- ChatListAdapter = 채팅방리스트 현황 RecyclerView 표출
+- ChatListFragment = 채팅방리스트
+- ChatListItem = 채팅방리스트 모델
+
+4. Home -> HomeFragment 관련
+- ArticleAdapter = 물품 아이템 RecyclerView 등록
+- ArticleModel = 물품 아이템 모델
+- HomeFragment = 기본화면
+
+5. MyPage
+- MyPageFragment = 로그인, 회원가입 화면

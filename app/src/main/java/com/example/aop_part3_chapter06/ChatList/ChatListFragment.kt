@@ -25,8 +25,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val fragmentChatlistBinding = FragmentChatlistBinding.bind(view)
-        binding = fragmentChatlistBinding
+        val fragmentChatListBinding = FragmentChatlistBinding.bind(view)
+        binding = fragmentChatListBinding
 
         chatListAdapter = ChatListAdapter(onItemClicked = {
             //TODO: 채팅방 이동 코드
@@ -39,8 +39,8 @@ class ChatListFragment : Fragment(R.layout.fragment_chatlist) {
 
         chatRoomList.clear()
 
-        fragmentChatlistBinding.chatListRecyclerView.adapter = chatListAdapter
-        fragmentChatlistBinding.chatListRecyclerView.layoutManager = LinearLayoutManager(context)
+        fragmentChatListBinding.chatListRecyclerView.adapter = chatListAdapter
+        fragmentChatListBinding.chatListRecyclerView.layoutManager = LinearLayoutManager(context)
 
         if (auth.currentUser == null) {
             return

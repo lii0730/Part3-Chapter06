@@ -2,9 +2,7 @@ package com.example.aop_part3_chapter06.MyPage
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -20,41 +18,39 @@ import com.google.firebase.database.FirebaseDatabase
 class MyPageFragment : Fragment(R.layout.fragment_mypage) {
 
     private lateinit var binding: FragmentMypageBinding
-    private lateinit var baseDB: DatabaseReference
+    private lateinit var articleDB: DatabaseReference
     private lateinit var auth : FirebaseAuth
     private val TAG = "LifeCycle"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.e(TAG, "$TAG::FRonCreate")
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-        Log.e(TAG, "$TAG::FRonCreateView")
-    }
-
-
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        Log.e(TAG, "$TAG::FRonCreate")
+//    }
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        return super.onCreateView(inflater, container, savedInstanceState)
+//        Log.e(TAG, "$TAG::FRonCreateView")
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMypageBinding.bind(view)
         auth = FirebaseAuth.getInstance()
 
-        initBaseDB()
+        initArticleDB()
         initBindButton()
         initEmailAndPasswordEditText()
         Log.e(TAG, "$TAG::FROnViewCreated")
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        Log.e(TAG, "$TAG::FRonViewStateRestored")
-    }
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//        Log.e(TAG, "$TAG::FRonViewStateRestored")
+//    }
 
     override fun onStart() {
         super.onStart()
@@ -80,40 +76,40 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.e(TAG, "$TAG::FRonResume")
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        Log.e(TAG, "$TAG::FRonResume")
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        Log.e(TAG, "$TAG::FRonPause")
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        Log.e(TAG, "$TAG::FRonStop")
+//    }
+//
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        Log.e(TAG, "$TAG::FRonSaveInstanceState")
+//    }
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        Log.e(TAG, "$TAG::FRonDestroyView")
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        Log.e(TAG, "$TAG::FRonDestroy")
+//    }
 
-    override fun onPause() {
-        super.onPause()
-        Log.e(TAG, "$TAG::FRonPause")
-    }
 
-    override fun onStop() {
-        super.onStop()
-        Log.e(TAG, "$TAG::FRonStop")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Log.e(TAG, "$TAG::FRonSaveInstanceState")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.e(TAG, "$TAG::FRonDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e(TAG, "$TAG::FRonDestroy")
-    }
-
-
-    private fun initBaseDB() {
+    private fun initArticleDB() {
         val database = FirebaseDatabase.getInstance()
-        baseDB = database.reference.child(ARTICLES)
+        articleDB = database.reference.child(ARTICLES)
     }
 
 
@@ -150,6 +146,7 @@ class MyPageFragment : Fragment(R.layout.fragment_mypage) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        // 회원가입에 성공하면 currentUser 에 자동으로 로그인 됨
                         Toast.makeText(
                             context,
                             "회원가입에 성공하였습니다.",

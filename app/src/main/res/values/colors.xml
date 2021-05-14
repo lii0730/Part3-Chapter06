@@ -10,4 +10,6 @@
     <color name="gray_cc">#CCCCCC</color>
     <color name="gray_ec">#ECECEC</color>
     <color name="appBaseColor">#FF9100</color>
+    <color name="MyTextcolor">#2979FF</color>
+    <color name="otherTextColor">#76FF03</color>
 </resources>

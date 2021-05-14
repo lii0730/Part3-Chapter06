@@ -8,24 +8,28 @@ import com.example.aop_part3_chapter06.ChatList.ChatListFragment
 import com.example.aop_part3_chapter06.Home.HomeFragment
 import com.example.aop_part3_chapter06.MyPage.MyPageFragment
 import com.example.aop_part3_chapter06.R
+import com.example.aop_part3_chapter06.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "LifeCycle"
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         Log.e(TAG, "$TAG::ATonCreate")
 
         val homeFragment = HomeFragment()
         val chatListFragment = ChatListFragment()
         val myPageFragment = MyPageFragment()
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
+        //TODO: 초기화면 세팅
         replaceFragment(homeFragment)
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> replaceFragment(homeFragment)
                 R.id.chatList -> replaceFragment(chatListFragment)
